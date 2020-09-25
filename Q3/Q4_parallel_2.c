@@ -1,5 +1,5 @@
 #define N 1000000
-#define N_case 25
+#define N_case 100
 #include <stdio.h>
 #include <sys/time.h>
 #include <omp.h>
@@ -8,6 +8,8 @@
 #include "stdlib.h" // rand for instance.
 
 int main(){
+double silly_maxval = 0.0;
+int silly_maxloc = 0;
 
 int threads[9] = {1,2,4,8,16, 20, 24, 28, 32};
 for(int k=0;k<9;k++){
@@ -42,6 +44,8 @@ for(int j=0; j<N_case;j++){
 	}
     	t2 = mysecond();
 
+	silly_maxval += maxval;
+	silly_maxloc += maxloc;
 	// mean/SD stuff
     	mean += (t2 - t1)/N_case;
     	times[j] = t2 - t1;
@@ -59,6 +63,7 @@ printf("%2d %11.8f %11.8f \n",omp_get_num_threads(),mean,sqrt(stdv/N_case));
 }
 }
 
+printf("1  %d %11.8f  \n",silly_maxloc,silly_maxval);
 return 0;
 }
 
